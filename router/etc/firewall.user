@@ -1,0 +1,10 @@
+# This file is interpreted as shell script.
+# Put your custom iptables rules here, they will
+# be executed with each firewall (re-)start.
+
+# Internal uci firewall chains are flushed and recreated on reload, so
+# put custom rules into the root chains e.g. INPUT or FORWARD or into the
+# special user chains, e.g. input_wan_rule or postrouting_lan_rule.
+ip6tables -t nat -A POSTROUTING -s xxxx:xxxx:xxxx::1/48 -j MASQUERADE
+ip6tables -t nat -A PREROUTING -p tcp -j DNAT --dport 5000 --to-destination \[xxxx:xxxx:xxxx:x:xxx:xxxx:xxxx:xxxx\]:5000
+ip -6 route add 2000::/3 via  fe80::1614:4bff:xxxx:xxxx dev eth0.2
